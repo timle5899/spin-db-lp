@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Watch & Win — Tapmad</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <style>
+    :root{
+      --bg0:#070a12;
+      --bg1:#0b1630;
+      --card:rgba(255,255,255,.06);
+      --card2:rgba(255,255,255,.08);
+      --border:rgba(255,255,255,.12);
+      --text:rgba(255,255,255,.92);
+      --muted:rgba(255,255,255,.70);
+      --muted2:rgba(255,255,255,.55);
+      --accent:#ffcc3d;
+      --accent2:#46e6ff;
+      --danger:#ff5a6a;
+      --ok:#4cff7a;
+      --shadow: 0 18px 60px rgba(0,0,0,.55);
+      --radius: 18px;
+      --radius2: 24px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      background:
+        radial-gradient(1000px 600px at 20% 10%, rgba(70,230,255,.18), transparent 60%),
+        radial-gradient(900px 520px at 85% 18%, rgba(255,204,61,.16), transparent 55%),
+        radial-gradient(900px 600px at 55% 100%, rgba(147,88,255,.10), transparent 55%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      overflow-x:hidden;
+    }
+    .wrap{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 22px 16px 110px;
+    }
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:18px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      user-select:none;
+    }
+    .logo{
+      width:38px;height:38px;border-radius:12px;
+      background: linear-gradient(135deg, rgba(255,204,61,.95), rgba(70,230,255,.75));
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+      position:relative;
+      overflow:hidden;
+    }
+    .logo:after{
+      content:"";
+      position:absolute; inset:-40%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.55), transparent 45%);
+      transform:rotate(18deg);
+    }
+    .brand h1{font-size:14px; margin:0; letter-spacing:.3px}
+    .brand p{margin:0; font-size:12px; color:var(--muted2)}
+
+    .pillRow{display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end}
+    .pill{
+      padding:7px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      color: var(--muted);
+      font-size: 12px;
+      display:flex; align-items:center; gap:8px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .dot{width:8px;height:8px;border-radius:50%}
+    .dot.ok{background:var(--ok)}
+    .dot.warn{background:var(--accent)}
+
+    .hero{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 14px;
+      align-items:stretch;
+    }
+    @media (max-width: 860px){
+      .hero{grid-template-columns: 1fr;}
+      .pillRow{justify-content:flex-start}
+    }
+
+    .card{
+      border-radius: var(--radius2);
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.05));
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+    .card:before{
+      content:"";
+      position:absolute; inset:-2px;
+      background:
+        radial-gradient(900px 400px at 10% 0%, rgba(70,230,255,.12), transparent 55%),
+        radial-gradient(900px 400px at 90% 20%, rgba(255,204,61,.10), transparent 55%);
+      pointer-events:none;
+    }
+    .cardInner{position:relative; padding: 18px 18px 16px;}
+
+    .title{
+      font-size: 34px;
+      line-height: 1.05;
+      margin: 2px 0 10px;
+      letter-spacing: -0.6px;
+    }
+    .title b{color:var(--accent)}
+    .sub{
+      margin:0 0 14px;
+      color:var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+    .gridBadges{display:flex; flex-wrap:wrap; gap:10px; margin: 12px 0 16px}
+    .badge{
+      display:flex; align-items:center; gap:10px;
+      padding:10px 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      color: var(--muted);
+      font-size: 13px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .badge strong{color:var(--text); font-weight:600}
+    .ico{
+      width:34px;height:34px;border-radius:14px;
+      background: rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.10);
+      display:flex;align-items:center;justify-content:center;
+    }
+
+    .ctaRow{display:flex; gap:12px; flex-wrap:wrap; align-items:center}
+    .btn{
+      appearance:none;
+      border:0;
+      cursor:pointer;
+      border-radius: 16px;
+      padding: 14px 16px;
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing:.2px;
+      color:#09101c;
+      background: linear-gradient(135deg, var(--accent), rgba(70,230,255,.85));
+      box-shadow: 0 16px 40px rgba(0,0,0,.35);
+      min-width: 220px;
+    }
+    .btn:active{transform: translateY(1px)}
+    .btnGhost{
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,.14);
+      min-width: 160px;
+    }
+    .fine{
+      font-size: 12px;
+      color: var(--muted2);
+      line-height:1.35;
+      margin: 10px 0 0;
+    }
+    .fine b{color:var(--text)}
+
+    .side{
+      display:flex; flex-direction:column; gap:12px;
+    }
+    .priceCard{
+      border-radius: var(--radius2);
+      padding: 16px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow: 0 14px 45px rgba(0,0,0,.35);
+      position:relative;
+      overflow:hidden;
+    }
+    .priceCard:before{
+      content:"";
+      position:absolute; inset:-3px;
+      background: radial-gradient(700px 260px at 20% 0%, rgba(255,204,61,.16), transparent 55%);
+      pointer-events:none;
+    }
+    .priceCard > *{position:relative}
+    .kicker{font-size:12px; color:var(--muted2); letter-spacing:.35px; text-transform:uppercase}
+    .priceLine{display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin-top:8px}
+    .priceLine .big{font-size:28px; font-weight:800}
+    .priceLine .tag{font-size:12px; color:var(--muted); background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.10); padding:6px 10px; border-radius:999px}
+    .divider{height:1px; background: rgba(255,255,255,.10); margin: 12px 0}
+    .mini{font-size:13px; color:var(--muted); line-height:1.4}
+    .mini strong{color:var(--text)}
+    .warn{
+      margin-top:10px;
+      padding: 10px 12px;
+      border-radius: 16px;
+      background: rgba(255,90,106,.10);
+      border: 1px solid rgba(255,90,106,.22);
+      color: rgba(255,255,255,.85);
+      font-size: 12.5px;
+      line-height: 1.35;
+    }
+
+    .section{
+      margin-top: 16px;
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      align-items:start;
+    }
+    @media (max-width: 860px){
+      .section{grid-template-columns: 1fr;}
+      .title{font-size: 30px}
+    }
+    .panel{
+      border-radius: var(--radius2);
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.10);
+      padding: 16px;
+      position:relative;
+      overflow:hidden;
+    }
+    .panel h3{margin:0 0 10px; font-size: 15px; letter-spacing:.2px}
+    .panel p{margin:0; color: var(--muted); font-size: 13.5px; line-height:1.5}
+    .steps{display:flex; flex-direction:column; gap:10px}
+    .step{
+      display:flex; gap:12px;
+      padding: 12px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+    }
+    .num{
+      width:30px; height:30px; border-radius: 12px;
+      background: rgba(255,204,61,.18);
+      border: 1px solid rgba(255,204,61,.25);
+      color: rgba(255,255,255,.92);
+      display:flex; align-items:center; justify-content:center;
+      font-weight: 800;
+      flex: 0 0 auto;
+    }
+    .step b{color:var(--text)}
+    .faq{display:flex; flex-direction:column; gap:10px}
+    details{
+      border-radius: 18px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      padding: 12px 12px;
+    }
+    summary{cursor:pointer; font-weight:700; color:rgba(255,255,255,.9)}
+    details p{margin:8px 0 0; color:var(--muted); font-size:13px; line-height:1.5}
+
+    .sticky{
+      position:fixed;
+      left:0; right:0; bottom:0;
+      padding: 12px 12px;
+      background: linear-gradient(180deg, rgba(7,10,18,.0), rgba(7,10,18,.55) 18%, rgba(7,10,18,.92));
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid rgba(255,255,255,.10);
+      z-index: 50;
+    }
+    .stickyInner{
+      max-width: 980px;
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+    }
+    .stickyText{font-size:12.5px; color:var(--muted); line-height:1.35}
+    .stickyText b{color:var(--text)}
+    .stickyBtn{
+      min-width: 210px;
+      padding: 13px 14px;
+      border-radius: 16px;
+      font-weight: 800;
+      border:0;
+      cursor:pointer;
+      color:#09101c;
+      background: linear-gradient(135deg, var(--accent), rgba(70,230,255,.85));
+      box-shadow: 0 14px 35px rgba(0,0,0,.35);
+    }
+
+    .legal{
+      margin-top: 14px;
+      color: var(--muted2);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    a{color: rgba(70,230,255,.92); text-decoration:none}
+    a:hover{text-decoration:underline}
+
+    .toast{
+      position:fixed;
+      left:50%; transform:translateX(-50%);
+      bottom: 88px;
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.14);
+      color: rgba(255,255,255,.92);
+      padding: 10px 12px;
+      border-radius: 16px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 16px 45px rgba(0,0,0,.40);
+      font-size: 13px;
+      display:none;
+      z-index: 60;
+      max-width: 92vw;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>Tapmad Campaign</h1>
+          <p>Win Money 182 • Pakistan (PK)</p>
+        </div>
+      </div>
+      <div class="pillRow">
+        <div class="pill"><span class="dot ok"></span>Public • 24/7</div>
+        <div class="pill"><span class="dot warn"></span>No misleading creatives</div>
+      </div>
+    </div>
+
+    <div class="hero">
+      <div class="card">
+        <div class="cardInner">
+          <div class="kicker">WATCH & WIN</div>
+          <div class="title">Get a <b>chance</b> to win<br>up to <b>Rs 100,000</b></div>
+          <p class="sub">
+            Subscribe to Tapmad content and join the “Watch & Win” campaign. <b>No free trial.</b>
+            A PIN/OTP may be required to confirm your subscription. <span style="color:rgba(255,255,255,.62)">(T&amp;C apply)</span>
+          </p>
+
+          <div class="gridBadges">
+            <div class="badge">
+              <div class="ico" aria-hidden="true">💳</div>
+              <div><strong>Payment</strong><br><span style="color:var(--muted2)">JazzCash / Easypaisa</span></div>
+            </div>
+            <div class="badge">
+              <div class="ico" aria-hidden="true">🔐</div>
+              <div><strong>Flow</strong><br><span style="color:var(--muted2)">PIN submit (OTP)</span></div>
+            </div>
+            <div class="badge">
+              <div class="ico" aria-hidden="true">📱</div>
+              <div><strong>Mobile-first</strong><br><span style="color:var(--muted2)">Pakistan only</span></div>
+            </div>
+          </div>
+
+          <div class="ctaRow">
+            <button class="btn" id="ctaTop">Continue</button>
+            <button class="btn btnGhost" id="seePrice">View pricing</button>
+          </div>
+          <p class="fine">
+            <b>Pricing:</b> Rs.1 today (1 day). Then <b>Rs.499/month</b> auto-renew.
+          </p>
+        </div>
+      </div>
+
+      <div class="side">
+        <div class="priceCard" id="priceCard">
+          <div class="kicker">Pricing & renewal</div>
+          <div class="priceLine">
+            <div>
+              <div class="big">Rs.1</div>
+              <div class="mini" style="margin-top:2px">Valid for <strong>1 day</strong></div>
+            </div>
+            <div class="tag">No trial</div>
+          </div>
+          <div class="divider"></div>
+          <div class="priceLine" style="margin-top:0">
+            <div>
+              <div class="big" style="font-size:22px">Rs.499/month</div>
+              <div class="mini" style="margin-top:2px">Auto-renews after day 1</div>
+            </div>
+          </div>
+          <div class="warn">
+            Proceeding confirms a paid subscription. You may be charged automatically each month unless you cancel.
+          </div>
+          <div class="mini" style="margin-top:10px">
+            <strong>Note:</strong> Cancellation instructions are provided on your payment confirmation/SMS or subscription management.
+          </div>
+        </div>
+
+        <div class="panel">
+          <h3>What you’ll do</h3>
+          <p>
+            Enter your PK mobile number on the payment page, confirm via JazzCash/Easypaisa, then watch on Tapmad.
+            You’ll see a confirmation step (PIN/OTP) to complete the subscription.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="panel">
+        <h3>How it works</h3>
+        <div class="steps" style="margin-top:10px">
+          <div class="step">
+            <div class="num">1</div>
+            <div><b>Continue</b> to the official payment page.</div>
+          </div>
+          <div class="step">
+            <div class="num">2</div>
+            <div>Choose <b>JazzCash</b> or <b>Easypaisa</b>, enter your <b>+92</b> number, tap <b>Pay Now</b>.</div>
+          </div>
+          <div class="step">
+            <div class="num">3</div>
+            <div>Confirm with <b>PIN/OTP</b>. Subscription becomes active and you can watch & join the campaign.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>FAQ</h3>
+        <div class="faq" style="margin-top:10px">
+          <details open>
+            <summary>Is Rs.100,000 guaranteed?</summary>
+            <p>No. This is a sweepstakes-style campaign. You get a <b>chance</b> to win. Terms apply.</p>
+          </details>
+          <details>
+            <summary>What will I be charged?</summary>
+            <p>Rs.1 today (valid for 1 day). After day 1, the subscription auto-renews at <b>Rs.499/month</b> unless cancelled.</p>
+          </details>
+          <details>
+            <summary>Do I need a PIN/OTP?</summary>
+            <p>Yes, a confirmation step (PIN/OTP) may be required to complete the subscription (conversion flow: PIN submit).</p>
+          </details>
+          <details>
+            <summary>How do I cancel?</summary>
+            <p>Cancellation instructions are usually shown on the payment confirmation page or sent via SMS by the billing provider. Follow those steps to stop renewal.</p>
+          </details>
+        </div>
+      </div>
+    </div>
+
+    <div class="legal">
+      By continuing you agree to the provider’s Terms and automatic renewal policy (where applicable). This page is informational and does not guarantee winnings.
+      <span style="opacity:.9">T&amp;C / Privacy</span>
+    </div>
+  </div>
+
+  <div class="sticky" role="region" aria-label="Continue bar">
+    <div class="stickyInner">
+      <div class="stickyText">
+        <b>Rs.1 today (1 day)</b> • then <b>Rs.499/month</b> auto-renew • No free trial • PIN/OTP may be required
+      </div>
+      <button class="stickyBtn" id="ctaSticky">Continue</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // Replace with your tracking link
+    const OFFER_URL = "REPLACE_WITH_YOUR_TRACKING_LINK";
+
+    function showToast(msg){
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.style.display = 'block';
+      clearTimeout(window.__t);
+      window.__t = setTimeout(()=>{ t.style.display = 'none'; }, 2600);
+    }
+
+    function buildOfferUrl(){
+      if (!OFFER_URL || OFFER_URL.includes('REPLACE_WITH_YOUR_TRACKING_LINK')){
+        return null;
+      }
+      try{
+        const u = new URL(OFFER_URL);
+        const qp = new URLSearchParams(window.location.search);
+        qp.forEach((v,k)=>{
+          // do not overwrite existing params unless you want strict pass-through
+          if (!u.searchParams.has(k)) u.searchParams.set(k, v);
+        });
+        return u.toString();
+      }catch(e){
+        return OFFER_URL;
+      }
+    }
+
+    function go(){
+      const finalUrl = buildOfferUrl();
+      if (!finalUrl){
+        showToast('Set OFFER_URL in the HTML first.');
+        return;
+      }
+      window.location.href = finalUrl;
+    }
+
+    document.getElementById('ctaTop').addEventListener('click', go);
+    document.getElementById('ctaSticky').addEventListener('click', go);
+
+    document.getElementById('seePrice').addEventListener('click', ()=>{
+      document.getElementById('priceCard').scrollIntoView({behavior:'smooth', block:'start'});
+    });
+
+    // subtle anti-misclick: warn if user tries to leave immediately after page load
+    let enteredAt = Date.now();
+    window.addEventListener('beforeunload', (e)=>{
+      if (Date.now() - enteredAt < 900) return;
+    });
+  </script>
+</body>
+</html>
